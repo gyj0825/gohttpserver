@@ -192,6 +192,9 @@ var vm = new Vue({
       var sep = search == "" ? "?" : "&"
       return location.origin + this.getEncodePath(f.name) + location.search + sep + "download=true";
     },
+    genDownloadFile: function (f) {
+      return location.origin + this.getEncodePath(f.name);
+    },
     shouldHaveQrcode: function (name) {
       return ['apk', 'ipa'].indexOf(getExtention(name)) !== -1;
     },
@@ -269,13 +272,13 @@ var vm = new Vue({
       })
     },
     makeDirectory: function () {
-      var name = window.prompt("current path: " + location.pathname + "\nplease enter the new directory name", "")
+      var name = window.prompt("当前路径: " + location.pathname + "\n请输入新目录名称", "")
       console.log(name)
       if (!name) {
         return
       }
       if(!checkPathNameLegal(name)) {
-        alert("Name should not contains any of \\/:*<>|")
+        alert("目录名不能包含字符 \\/:*<>|")
         return
       }
       $.ajax({
@@ -293,7 +296,7 @@ var vm = new Vue({
     deletePathConfirm: function (f, e) {
       e.preventDefault();
       if (!e.altKey) { // skip confirm when alt pressed
-        if (!window.confirm("Delete " + f.name + " ?")) {
+        if (!window.confirm("删除 " + f.name + " ?")) {
           return;
         }
       }
